@@ -14,7 +14,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.asean_shipping.R;
 import com.example.asean_shipping.model.shipper.CreateShipmentGenericResponse;
-import com.example.asean_shipping.model.shipper.ReportShipFromPayload;
+import com.example.asean_shipping.model.shipper.ReportShipFromToGenericPayload;
 import com.example.asean_shipping.restApi.APIServices;
 import com.example.asean_shipping.restApi.AppClient;
 import com.google.android.material.textfield.TextInputEditText;
@@ -72,17 +72,17 @@ public class CreateShipTo extends DialogFragment {
 
         shipFromSubmit.setOnClickListener(v -> {
 
-            ReportShipFromPayload reportShipFromPayload = new ReportShipFromPayload();
-            reportShipFromPayload.setName(shipFromName.getText().toString());
-            reportShipFromPayload.setContact(shipFromContact.getText().toString());
-            reportShipFromPayload.setAddress(shipFromAddress.getText().toString());
-            reportShipFromPayload.setCity(shipFromCity.getText().toString());
-            reportShipFromPayload.setState(shipFromState.getText().toString());
-            reportShipFromPayload.setZip(shipFromZip.getText().toString());
-            reportShipFromPayload.setShipmentId(shipmentId);
+            ReportShipFromToGenericPayload reportShipFromToGenericPayload = new ReportShipFromToGenericPayload();
+            reportShipFromToGenericPayload.setName(shipFromName.getText().toString());
+            reportShipFromToGenericPayload.setContact(shipFromContact.getText().toString());
+            reportShipFromToGenericPayload.setAddress(shipFromAddress.getText().toString());
+            reportShipFromToGenericPayload.setCity(shipFromCity.getText().toString());
+            reportShipFromToGenericPayload.setState(shipFromState.getText().toString());
+            reportShipFromToGenericPayload.setZip(shipFromZip.getText().toString());
+            reportShipFromToGenericPayload.setShipmentId(shipmentId);
 
             APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
-            Call<CreateShipmentGenericResponse> call = apiServices.postShipFromData(reportShipFromPayload);
+            Call<CreateShipmentGenericResponse> call = apiServices.postShipToData(reportShipFromToGenericPayload);
 
             call.enqueue(new Callback<CreateShipmentGenericResponse>() {
                 @Override

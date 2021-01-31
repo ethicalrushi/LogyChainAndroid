@@ -2,7 +2,7 @@ package com.example.asean_shipping.model.shipper;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ReportShipFromPayload {
+public class ReportShipFromToGenericPayload {
 
     @SerializedName("name")
     @Expose
