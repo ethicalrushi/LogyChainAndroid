@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
         CreateShipFrom createShipFrom = new CreateShipFrom();
         createShipFrom.show(getSupportFragmentManager(),"createShipFrom");
-//        Intent i  = new Intent(MainActivity.this, LoginActivity.class);
-//        startActivity(i);
+        Intent i  = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(i);
     }
 }
