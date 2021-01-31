@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import com.example.asean_shipping.fragments.CreateShipFrom;
+
 public class ShippingActivity extends AppCompatActivity {
 
     @Override
@@ -16,5 +18,7 @@ public class ShippingActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setBackgroundColor(Color.parseColor("#006994"));
         getSupportActionBar().hide();
+        CreateShipFrom createShipFrom = new CreateShipFrom();
+        createShipFrom.show(getSupportFragmentManager(),"createShipFrom");
     }
 }

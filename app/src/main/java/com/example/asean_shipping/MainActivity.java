@@ -13,9 +13,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        CreateShipFrom createShipFrom = new CreateShipFrom();
-        createShipFrom.show(getSupportFragmentManager(),"createShipFrom");
         Intent i  = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(i);
     }
