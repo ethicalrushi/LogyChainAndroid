@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ASEAN_shipping">
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".Financials"></activity>
+        <activity android:name=".TrackOrder" />
+        <activity android:name=".ShippingActivity" />
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".Dashboard" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">
