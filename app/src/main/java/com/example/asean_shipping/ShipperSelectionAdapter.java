@@ -70,14 +70,14 @@ public class ShipperSelectionAdapter extends ArrayAdapter<ShipperDataModel> impl
             @Override
             public void onClick(View v){
                 String remarks = viewHolder.remarks.getText().toString();
-                ShipperDataModel.setRemarks(remarks);
-                contactAPItoSetOrder();
+                shipperDataModel.setRemarks(remarks);
+                contactAPItoSetOrder(shipperDataModel);
             }
         });
         return convertView;
     }
 
-    public void contactAPItoSetOrder(){
+    public void contactAPItoSetOrder(ShipperDataModel shipperDataModel){
 
     }
 }
