@@ -1,6 +1,8 @@
 package com.example.asean_shipping;
 
 import android.content.Context;
+import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,19 +10,29 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.asean_shipping.model.shipper.CreateShipmentGenericResponse;
+import com.example.asean_shipping.model.shipper.SetShipmentAgencyPayload;
+import com.example.asean_shipping.restApi.APIServices;
+import com.example.asean_shipping.restApi.AppClient;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ShipperSelectionAdapter extends ArrayAdapter<ShipperDataModel> implements View.OnClickListener {
 
     private ArrayList<ShipperDataModel> dataSet;
     Context mContext;
     private int lastPosition = -1;
+    public String shipmentId;
 
     private static class ViewHolder {
         TextInputEditText remarks;
@@ -29,10 +41,11 @@ public class ShipperSelectionAdapter extends ArrayAdapter<ShipperDataModel> impl
         MaterialButton select;
     }
 
-    public ShipperSelectionAdapter(ArrayList<ShipperDataModel> data, Context context) {
+    public ShipperSelectionAdapter(ArrayList<ShipperDataModel> data, Context context, String shipmentId) {
         super(context, R.layout.row_item_shipper, data);
         this.dataSet = data;
         this.mContext = context;
+        this.shipmentId = shipmentId;
     }
 
     @Override
@@ -69,8 +82,6 @@ public class ShipperSelectionAdapter extends ArrayAdapter<ShipperDataModel> impl
         viewHolder.select.setOnClickListener(new MaterialButton.OnClickListener(){
             @Override
             public void onClick(View v){
-                String remarks = viewHolder.remarks.getText().toString();
-                shipperDataModel.setRemarks(remarks);
                 contactAPItoSetOrder(shipperDataModel);
             }
         });
@@ -78,6 +89,23 @@ public class ShipperSelectionAdapter extends ArrayAdapter<ShipperDataModel> impl
     }
 
     public void contactAPItoSetOrder(ShipperDataModel shipperDataModel){
+        SetShipmentAgencyPayload payload = new SetShipmentAgencyPayload();
+        payload.setShipmentAgencyId(shipperDataModel.getPk());
+        payload.setShipmentId(shipmentId);
+        APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
+        apiServices.setShipmentAgency(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("token", ""), payload)
+                .enqueue(new Callback<CreateShipmentGenericResponse>() {
+                    @Override
+                    public void onResponse(Call<CreateShipmentGenericResponse> call, Response<CreateShipmentGenericResponse> response) {
+                        Toast.makeText(getContext(), "Shipment Order placed", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(mContext, Dashboard.class);
+                        mContext.startActivity(intent);
+                    }
 
+                    @Override
+                    public void onFailure(Call<CreateShipmentGenericResponse> call, Throwable t) {
+                        Toast.makeText(getContext(), "something went wrong", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 }

@@ -1,16 +1,33 @@
 package com.example.asean_shipping;
 
 public class ShipperDataModel {
-    public String shipperName;
-    public double cost;
-    public String remarks = "";
+    public int pk;
+    public String name;
+    public int cost;
 
-    public ShipperDataModel(String shipperName, double cost){
-        this.shipperName = shipperName;
+
+    public int getPk() {
+        return pk;
+    }
+
+    public void setPk(int pk) {
+        this.pk = pk;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
         this.cost = cost;
     }
 
-    public void setRemarks(String remarks){
-        this.remarks = remarks;
-    }
 }

@@ -1,25 +1,23 @@
 package com.example.asean_shipping.model.shipper;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ReportShipFromToGenericPayload {
-
-
+public class SetShipmentAgencyPayload {
     @SerializedName("contact")
     @Expose
-    private String contact="";
+    private int shipmentAgencyId;
 
     @SerializedName("shipmentId")
     @Expose
     private  String shipmentId;
 
-
-    public String getContact() {
-        return contact;
+    public int getShipmentAgencyId() {
+        return shipmentAgencyId;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setShipmentAgencyId(int shipmentAgencyId) {
+        this.shipmentAgencyId = shipmentAgencyId;
     }
 
     public String getShipmentId() {

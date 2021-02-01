@@ -2,20 +2,33 @@ package com.example.asean_shipping;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.example.asean_shipping.model.auth.UserDetailResponse;
+import com.example.asean_shipping.restApi.APIServices;
+import com.example.asean_shipping.restApi.AppClient;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ShipperSelection extends AppCompatActivity {
 
     ArrayList<ShipperDataModel> dataModels;
     ListView listView;
     private static ShipperSelectionAdapter adapter;
+    public String shipmentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +41,11 @@ public class ShipperSelection extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listViewShipper);
         listView.setDivider(null);
 
-        dataModels = receiveShippers();
+        shipmentId = getIntent().getExtras().getString("shipmentId");
 
-        adapter = new ShipperSelectionAdapter(dataModels, getApplicationContext());
+        receiveShippers();
+
+        adapter = new ShipperSelectionAdapter(dataModels, getApplicationContext(), shipmentId);
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -43,11 +58,20 @@ public class ShipperSelection extends AppCompatActivity {
 
     }
 
-    public ArrayList<ShipperDataModel> receiveShippers(){
-        ArrayList<ShipperDataModel> dataModels = new ArrayList<>();
-        dataModels.add(new ShipperDataModel("FedEx", 5000.00));
-        dataModels.add(new ShipperDataModel("DelhiVery", 4876.00));
-        dataModels.add(new ShipperDataModel("InterShip", 5896.00));
-        return dataModels;
+    public void receiveShippers(){
+
+        APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
+        apiServices.getShipmentAgency(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("token", ""))
+                .enqueue(new Callback<ArrayList<ShipperDataModel>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<ShipperDataModel>> call, Response<ArrayList<ShipperDataModel>> response) {
+                        dataModels = response.body();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<ShipperDataModel>> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 }

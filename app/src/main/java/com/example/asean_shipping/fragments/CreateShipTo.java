@@ -35,6 +35,9 @@ public class CreateShipTo extends DialogFragment {
         this.shipmentId = shipmentId;
     }
 
+    public CreateShipTo() {
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,12 +65,7 @@ public class CreateShipTo extends DialogFragment {
         shipFromToGenericTitle = view.findViewById(R.id.create_ship_from_to_detail_title);
         shipFromToGenericTitle.setText("Enter Receiver's Details");
 
-        shipFromName = view.findViewById(R.id.shipFromName);
-        shipFromAddress = view.findViewById(R.id.shipFromAddress);
         shipFromContact = view.findViewById(R.id.shipFromContact);
-        shipFromCity = view.findViewById(R.id.shipFromCity);
-        shipFromState = view.findViewById(R.id.shipFromState);
-        shipFromZip = view.findViewById(R.id.shipFromZip);
         shipFromSubmit = view.findViewById(R.id.create_ship_from_proceed_btn);
 
 //        view.findViewById(R.id.farmer_report_prod_back).setOnClickListener(view1 -> dismiss());
@@ -75,12 +73,7 @@ public class CreateShipTo extends DialogFragment {
         shipFromSubmit.setOnClickListener(v -> {
 
             ReportShipFromToGenericPayload reportShipFromToGenericPayload = new ReportShipFromToGenericPayload();
-            reportShipFromToGenericPayload.setName(shipFromName.getText().toString());
             reportShipFromToGenericPayload.setContact(shipFromContact.getText().toString());
-            reportShipFromToGenericPayload.setAddress(shipFromAddress.getText().toString());
-            reportShipFromToGenericPayload.setCity(shipFromCity.getText().toString());
-            reportShipFromToGenericPayload.setState(shipFromState.getText().toString());
-            reportShipFromToGenericPayload.setZip(shipFromZip.getText().toString());
             reportShipFromToGenericPayload.setShipmentId(shipmentId);
 
             APIServices apiServices = AppClient.getInstance().createService(APIServices.class);

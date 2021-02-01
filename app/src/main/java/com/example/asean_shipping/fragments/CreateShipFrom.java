@@ -39,20 +39,7 @@ public class CreateShipFrom extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Light_NoTitleBar);
-        APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
-        Call<CreateShipmentGenericResponse> call = apiServices.getShipmentId(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("token", ""));
 
-        call.enqueue(new Callback<CreateShipmentGenericResponse>() {
-            @Override
-            public void onResponse(Call<CreateShipmentGenericResponse> call, Response<CreateShipmentGenericResponse> response) {
-                shipmentId = response.body().shipmentId;
-            }
-
-            @Override
-            public void onFailure(Call<CreateShipmentGenericResponse> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage().toString(), Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     @Override
@@ -75,13 +62,7 @@ public class CreateShipFrom extends DialogFragment {
 
         shipFromToGenericTitle = view.findViewById(R.id.create_ship_from_to_detail_title);
         shipFromToGenericTitle.setText("Enter Shipper's Details");
-
-        shipFromName = view.findViewById(R.id.shipFromName);
-        shipFromAddress = view.findViewById(R.id.shipFromAddress);
         shipFromContact = view.findViewById(R.id.shipFromContact);
-        shipFromCity = view.findViewById(R.id.shipFromCity);
-        shipFromState = view.findViewById(R.id.shipFromState);
-        shipFromZip = view.findViewById(R.id.shipFromZip);
         shipFromSubmit = view.findViewById(R.id.create_ship_from_proceed_btn);
 
 //        view.findViewById(R.id.farmer_report_prod_back).setOnClickListener(view1 -> dismiss());
@@ -89,31 +70,10 @@ public class CreateShipFrom extends DialogFragment {
         shipFromSubmit.setOnClickListener(v -> {
 
             ReportShipFromToGenericPayload reportShipFromToGenericPayload = new ReportShipFromToGenericPayload();
-            reportShipFromToGenericPayload.setName(shipFromName.getText().toString());
             reportShipFromToGenericPayload.setContact(shipFromContact.getText().toString());
-            reportShipFromToGenericPayload.setAddress(shipFromAddress.getText().toString());
-            reportShipFromToGenericPayload.setCity(shipFromCity.getText().toString());
-            reportShipFromToGenericPayload.setState(shipFromState.getText().toString());
-            reportShipFromToGenericPayload.setZip(shipFromZip.getText().toString());
             reportShipFromToGenericPayload.setShipmentId(shipmentId);
 
-            APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
-            Call<CreateShipmentGenericResponse> call = apiServices.postShipFromData(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("token", ""),
-                    reportShipFromToGenericPayload);
 
-            call.enqueue(new Callback<CreateShipmentGenericResponse>() {
-                @Override
-                public void onResponse(Call<CreateShipmentGenericResponse> call, Response<CreateShipmentGenericResponse> response) {
-                    CreateShipTo createShipTo= new CreateShipTo(response.body().shipmentId);
-
-                    createShipTo.show(getFragmentManager(), "createShipTo");
-                }
-
-                @Override
-                public void onFailure(Call<CreateShipmentGenericResponse> call, Throwable t) {
-                    Toast.makeText(getContext(), t.getMessage().toString(), Toast.LENGTH_LONG).show();
-                }
-            });
 
         });
 

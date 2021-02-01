@@ -60,8 +60,9 @@ public class OrderDetails extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent i = new Intent(OrderDetails.this, ShipperSelection.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.putExtra("OrderDetails", dataModels);
+                i.putExtra("shipmentId",shipmentId);
                 startActivity(i);
             }
         });
