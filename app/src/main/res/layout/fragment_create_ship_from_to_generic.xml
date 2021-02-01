@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F0F4"
+    android:background="#006994"
     android:paddingTop="24dp">
 
     <LinearLayout
@@ -22,7 +22,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/roboto_slab"
             android:text="Enter Shipper's details"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@android:color/white"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -49,14 +49,17 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:boxStrokeColor="@color/white">
+                android:textColorHint="@color/white"
+                app:boxStrokeColor="@color/white"
+                app:endIconTint="@color/white"
+                app:helperTextTextColor="@color/white"
+                app:hintTextColor="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/shipFromName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Name"
-                    android:textColorHint="@color/white"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,16 +68,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxStrokeColor="@color/white">
+                android:textColorHint="@color/white"
+                app:boxStrokeColor="@color/white"
+                app:endIconTint="@color/white"
+                app:helperTextTextColor="@color/white"
+                app:hintTextColor="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/shipFromContact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Contact"
+                    android:hint="Contact (With Country Code)"
                     android:inputType="phone"
-                    android:maxLength="10"
-                    android:textColorHint="@color/white"/>
+                    android:maxLength="10" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -82,7 +88,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxStrokeColor="@color/white">
+                android:textColorHint="@color/white"
+                app:boxStrokeColor="@color/white"
+                app:endIconTint="@color/white"
+                app:helperTextTextColor="@color/white"
+                app:hintTextColor="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/shipFromAddress"
@@ -97,15 +107,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxStrokeColor="@color/white">
+                android:textColorHint="@color/white"
+                app:boxStrokeColor="@color/white"
+                app:endIconTint="@color/white"
+                app:helperTextTextColor="@color/white"
+                app:hintTextColor="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/shipFromCity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="City"
-                    android:inputType="text"
-                    android:textColorHint="@color/white"/>
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -113,15 +126,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxStrokeColor="@color/white">
+                android:textColorHint="@color/white"
+                app:boxStrokeColor="@color/white"
+                app:endIconTint="@color/white"
+                app:helperTextTextColor="@color/white"
+                app:hintTextColor="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/shipFromState"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="State"
-                    android:inputType="text"
-                    android:textColorHint="@color/white"/>
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -129,15 +145,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxStrokeColor="@color/white">
+                android:textColorHint="@color/white"
+                app:boxStrokeColor="@color/white"
+                app:endIconTint="@color/white"
+                app:helperTextTextColor="@color/white"
+                app:hintTextColor="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/shipFromZip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="ZipCode"
-                    android:inputType="number"
-                    android:textColorHint="@color/white"/>
+                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </ScrollView>
@@ -173,7 +192,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/gradient_button"
-            android:backgroundTint="#009dc4"
+            app:backgroundTint="#009dc4"
             android:text="Proceed"
             android:textColor="#F0F0F4" />
 

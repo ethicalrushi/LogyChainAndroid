@@ -16,9 +16,9 @@ public class ShippingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shipping);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().getDecorView().setBackgroundColor(Color.parseColor("#006994"));
         getSupportActionBar().hide();
         CreateShipFrom createShipFrom = new CreateShipFrom();
         createShipFrom.show(getSupportFragmentManager(),"createShipFrom");
+
     }
 }

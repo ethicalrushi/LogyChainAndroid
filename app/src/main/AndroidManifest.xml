@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".ShipperSelection"></activity>
+        <activity android:name=".OrderDetails" />
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".Dashboard" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">
@@ -22,9 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ShippingActivity"></activity>
-        <activity android:name=".Financials"></activity>
-        <activity android:name=".TrackOrder"></activity>
+        <activity android:name=".ShippingActivity" />
+        <activity android:name=".TrackOrder" />
+        <activity android:name=".Financials" />
     </application>
 
 </manifest>
