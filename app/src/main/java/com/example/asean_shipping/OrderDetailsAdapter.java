@@ -1,7 +1,6 @@
 package com.example.asean_shipping;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,15 +70,23 @@ public class OrderDetailsAdapter extends ArrayAdapter<OrderDataModel> implements
             public void onClick(View v){
                 int noBoxes = Integer.parseInt(viewHolder.boxes.getText().toString());
                 orderDataModel.setNoBoxes(noBoxes);
+                viewHolder.boxes.setEnabled(false);
                 long orderId = Long.parseLong(viewHolder.orderID.getText().toString());
                 orderDataModel.setOrderId(orderId);
+                viewHolder.orderID.setEnabled(false);
                 double orderWeight = Double.parseDouble(viewHolder.orderWeight.getText().toString());
                 orderDataModel.setOrderWeight(orderWeight);
+                viewHolder.orderWeight.setEnabled(false);
                 double orderAmount = Double.parseDouble(viewHolder.orderAmount.getText().toString());
+                viewHolder.orderAmount.setEnabled(false);
                 orderDataModel.setOrderAmount(orderAmount);
+                sendToAPI(orderDataModel);
             }
         });
         return convertView;
     }
 
+    private void sendToAPI(OrderDataModel orderDataModel){
+
+    }
 }

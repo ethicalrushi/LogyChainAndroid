@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -33,6 +34,17 @@ public class OrderDetails extends AppCompatActivity {
 
         Button addOrder = (Button) findViewById(R.id.addOrder);
         Button saveOrder = (Button) findViewById(R.id.submitOrder);
+
+        adapter = new OrderDetailsAdapter(dataModels, getApplicationContext());
+
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                OrderDataModel dataModel = dataModels.get(position);
+            }
+        });
 
         addOrder.setOnClickListener(new Button.OnClickListener(){
             @Override
