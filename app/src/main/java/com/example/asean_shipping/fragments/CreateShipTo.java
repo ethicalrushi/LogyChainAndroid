@@ -1,6 +1,7 @@
 package com.example.asean_shipping.fragments;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,10 +88,8 @@ public class CreateShipTo extends DialogFragment {
             call.enqueue(new Callback<CreateShipmentGenericResponse>() {
                 @Override
                 public void onResponse(Call<CreateShipmentGenericResponse> call, Response<CreateShipmentGenericResponse> response) {
-                    CreateShipFrom createShipFrom = new CreateShipFrom();
-
-                    createShipFrom.show(getFragmentManager(), "shipTo");
-
+                    Intent i = new Intent(getContext(), com.example.asean_shipping.OrderDetails.class);
+                    startActivity(i);
                 }
 
                 @Override
