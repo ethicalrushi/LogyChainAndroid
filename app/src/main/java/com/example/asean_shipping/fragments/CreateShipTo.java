@@ -91,6 +91,7 @@ public class CreateShipTo extends DialogFragment {
                 @Override
                 public void onResponse(Call<CreateShipmentGenericResponse> call, Response<CreateShipmentGenericResponse> response) {
                     Intent i = new Intent(getContext(), com.example.asean_shipping.OrderDetails.class);
+                    i.putExtra("shipmentId",response.body().shipmentId);
                     startActivity(i);
                 }
 

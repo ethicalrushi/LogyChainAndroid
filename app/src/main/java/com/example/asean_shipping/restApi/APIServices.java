@@ -1,5 +1,6 @@
 package com.example.asean_shipping.restApi;
 
+import com.example.asean_shipping.OrderDataModel;
 import com.example.asean_shipping.model.auth.LoginPayload;
 import com.example.asean_shipping.model.auth.LoginResponse;
 import com.example.asean_shipping.model.auth.SignupPayload;
@@ -32,4 +33,7 @@ public interface APIServices {
 
     @GET("user/getUserDetails/")
     Call<UserDetailResponse> getUserDetail(@Header("Authorization") String token);
+
+    @POST("transaction/addCustomerOrder/")
+    Call<CreateShipmentGenericResponse> setCustomerOrder(@Header("Authorization") String token, @Body OrderDataModel payload);
 }

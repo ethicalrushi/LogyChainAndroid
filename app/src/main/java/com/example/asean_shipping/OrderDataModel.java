@@ -1,11 +1,12 @@
 package com.example.asean_shipping;
 
 public class OrderDataModel {
-        public int orderNumber;
-        public int weight;
-        public int numberOfPackages;
-        public int cost;
-        public String remarks;
+    public  String shipmentId;
+    public int orderNumber;
+    public int weight;
+    public int numberOfPackages;
+    public int cost;
+    public String remarks;
 
 
     public int getOrderNumber() {
@@ -46,5 +47,13 @@ public class OrderDataModel {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public String getShipmentId() {
+        return shipmentId;
+    }
+
+    public void setShipmentId(String shipmentId) {
+        this.shipmentId = shipmentId;
     }
 }

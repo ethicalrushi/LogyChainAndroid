@@ -1,24 +1,35 @@
 package com.example.asean_shipping;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
+import com.example.asean_shipping.model.auth.UserDetailResponse;
+import com.example.asean_shipping.model.shipper.CreateShipmentGenericResponse;
+import com.example.asean_shipping.restApi.APIServices;
+import com.example.asean_shipping.restApi.AppClient;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OrderDetailsAdapter extends ArrayAdapter<OrderDataModel> implements View.OnClickListener {
 
     private ArrayList<OrderDataModel> dataSet;
     Context mContext;
     private int lastPosition = -1;
+    private String shipmentId;
 
     private static class ViewHolder {
         TextInputEditText orderID;
@@ -29,10 +40,11 @@ public class OrderDetailsAdapter extends ArrayAdapter<OrderDataModel> implements
         MaterialButton save;
     }
 
-    public OrderDetailsAdapter(ArrayList<OrderDataModel> data, Context context) {
+    public OrderDetailsAdapter(ArrayList<OrderDataModel> data, Context context, String shipmentId) {
         super(context, R.layout.row_item, data);
         this.dataSet = data;
         this.mContext=context;
+        this.shipmentId = shipmentId;
     }
 
     @Override
@@ -71,19 +83,43 @@ public class OrderDetailsAdapter extends ArrayAdapter<OrderDataModel> implements
         viewHolder.save.setOnClickListener(new MaterialButton.OnClickListener(){
             @Override
             public void onClick(View v){
+                orderDataModel.setShipmentId(shipmentId);
                 int noBoxes = Integer.parseInt(viewHolder.boxes.getText().toString());
                 orderDataModel.setNumberOfPackages(noBoxes);
+                viewHolder.boxes.setEnabled(false);
                 int orderId = Integer.parseInt(viewHolder.orderID.getText().toString());
                 orderDataModel.setOrderNumber(orderId);
+                viewHolder.orderID.setEnabled(false);
                 int orderWeight = Integer.parseInt(viewHolder.orderWeight.getText().toString());
                 orderDataModel.setWeight(orderWeight);
+                viewHolder.orderWeight.setEnabled(false);
                 int orderAmount = Integer.parseInt(viewHolder.orderAmount.getText().toString());
+                viewHolder.orderAmount.setEnabled(false);
                 orderDataModel.setCost(orderAmount);
-                String remarks = viewHolder.orderRemarks.getText().toString();
-                orderDataModel.setRemarks(remarks);
+                String orderRemarks = viewHolder.orderRemarks.getText().toString();
+                viewHolder.orderRemarks.setEnabled(false);
+                orderDataModel.setRemarks(orderRemarks);
+                sendToAPI(orderDataModel);
             }
         });
         return convertView;
     }
 
+    private void sendToAPI(OrderDataModel orderDataModel){
+        APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
+        apiServices.setCustomerOrder(PreferenceManager.getDefaultSharedPreferences(mContext).getString("token", ""), orderDataModel)
+                .enqueue(new Callback<CreateShipmentGenericResponse>() {
+                    @Override
+                    public void onResponse(Call<CreateShipmentGenericResponse> call, Response<CreateShipmentGenericResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            Toast.makeText(mContext, "Order sent", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<CreateShipmentGenericResponse> call, Throwable t) {
+                        Toast.makeText(mContext, "something went wrong", Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
 }

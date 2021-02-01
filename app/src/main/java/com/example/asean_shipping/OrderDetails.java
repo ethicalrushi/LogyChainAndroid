@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -17,6 +18,7 @@ public class OrderDetails extends AppCompatActivity {
     ArrayList<OrderDataModel> dataModels;
     ListView listView;
     private static OrderDetailsAdapter adapter;
+    public String shipmentId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,11 +30,24 @@ public class OrderDetails extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setDivider(null);
 
+        shipmentId = getIntent().getExtras().getString("shipmentId");
+
         dataModels = new ArrayList<>();
         dataModels.add(new OrderDataModel());
 
         Button addOrder = (Button) findViewById(R.id.addOrder);
         Button saveOrder = (Button) findViewById(R.id.submitOrder);
+
+        adapter = new OrderDetailsAdapter(dataModels, getApplicationContext(), shipmentId);
+
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                OrderDataModel dataModel = dataModels.get(position);
+            }
+        });
 
         addOrder.setOnClickListener(new Button.OnClickListener(){
             @Override
