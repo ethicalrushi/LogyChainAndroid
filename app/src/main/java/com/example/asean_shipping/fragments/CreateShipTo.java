@@ -2,6 +2,7 @@ package com.example.asean_shipping.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +83,8 @@ public class CreateShipTo extends DialogFragment {
             reportShipFromToGenericPayload.setShipmentId(shipmentId);
 
             APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
-            Call<CreateShipmentGenericResponse> call = apiServices.postShipToData(reportShipFromToGenericPayload);
+            Call<CreateShipmentGenericResponse> call = apiServices.postShipToData(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("token", ""),
+                    reportShipFromToGenericPayload);
 
             call.enqueue(new Callback<CreateShipmentGenericResponse>() {
                 @Override

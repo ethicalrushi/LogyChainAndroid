@@ -2,6 +2,7 @@ package com.example.asean_shipping.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,13 +31,27 @@ public class CreateShipFrom extends DialogFragment {
     private String shipmentId;
 
     public CreateShipFrom() {
-        shipmentId = "1a2bce"; //do api call to get it over here
+
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Light_NoTitleBar);
+        APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
+        Call<CreateShipmentGenericResponse> call = apiServices.getShipmentId(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("token", ""));
+
+        call.enqueue(new Callback<CreateShipmentGenericResponse>() {
+            @Override
+            public void onResponse(Call<CreateShipmentGenericResponse> call, Response<CreateShipmentGenericResponse> response) {
+                shipmentId = response.body().shipmentId;
+            }
+
+            @Override
+            public void onFailure(Call<CreateShipmentGenericResponse> call, Throwable t) {
+                Toast.makeText(getContext(), t.getMessage().toString(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -82,7 +97,8 @@ public class CreateShipFrom extends DialogFragment {
             reportShipFromToGenericPayload.setShipmentId(shipmentId);
 
             APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
-            Call<CreateShipmentGenericResponse> call = apiServices.postShipFromData(reportShipFromToGenericPayload);
+            Call<CreateShipmentGenericResponse> call = apiServices.postShipFromData(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("token", ""),
+                    reportShipFromToGenericPayload);
 
             call.enqueue(new Callback<CreateShipmentGenericResponse>() {
                 @Override
