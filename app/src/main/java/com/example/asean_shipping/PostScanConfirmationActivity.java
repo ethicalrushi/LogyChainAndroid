@@ -1,8 +1,10 @@
 package com.example.asean_shipping;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.asean_shipping.model.shipper.CreateShipmentGenericResponse;
+import com.example.asean_shipping.model.shipper.ReportTrackDataPayload;
 import com.example.asean_shipping.model.shipper.ScanDetailsResponse;
 import com.example.asean_shipping.restApi.APIServices;
 import com.example.asean_shipping.restApi.AppClient;
@@ -26,6 +29,7 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
     TextInputEditText remarks;
     Button accept, reject;
     String shipmentId, latitude, longitude;
+    Boolean receiverFlag=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,7 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
                         shipToCity.setText("Destination: "+response.body().getShipToCity());
                         weight.setText("Weight: "+Integer.toString(response.body().getWeight()));
                         numberOfPackages.setText("Number of Packages: "+Integer.toString(response.body().getPackages()));
+                        receiverFlag = response.body().isReceiver();
                     }
 
                     @Override
@@ -69,8 +74,69 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
                     }
                 });
 
+        accept.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String remarkText = remarks.getText().toString();
+                boolean approved = true;
+
+                if(receiverFlag) {
+                    //call new intent for final payment and pass below values and set track data their
+                }
+
+                ReportTrackDataPayload payload = new ReportTrackDataPayload();
+                payload.setApproved(approved);
+                payload.setLatitude("latitude");
+                payload.setLongitude("longitude");
+                payload.setShipmentId(shipmentId);
+                payload.setRemarks(remarkText);
+
+                sendTrackData(payload);
+            }
+        });
+
+        reject.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String remarkText = remarks.getText().toString();
+                boolean approved = false;
+
+                ReportTrackDataPayload payload = new ReportTrackDataPayload();
+                payload.setApproved(approved);
+                payload.setLatitude(latitude);
+                payload.setLongitude(longitude);
+                payload.setShipmentId(shipmentId);
+                payload.setRemarks(remarkText);
+
+                sendTrackData(payload);
+
+            }
+        });
 
 
 
+
+    }
+
+    public void sendTrackData(ReportTrackDataPayload payload) {
+        APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
+        apiServices.setTrackingData(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("token", ""), payload)
+                .enqueue(new Callback<CreateShipmentGenericResponse>() {
+                    @Override
+                    public void onResponse(Call<CreateShipmentGenericResponse> call, Response<CreateShipmentGenericResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            Toast.makeText(getApplicationContext(), "Tracking Info sent", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(PostScanConfirmationActivity.this, Dashboard.class);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<CreateShipmentGenericResponse> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(PostScanConfirmationActivity.this, Dashboard.class);
+                        startActivity(intent);
+                    }
+                });
     }
 }

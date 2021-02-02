@@ -170,16 +170,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:textColorHint="@color/white"
-            app:boxStrokeColor="@color/white"
-            app:endIconTint="@color/white"
-            app:helperTextTextColor="@color/white"
-            app:hintTextColor="@color/white">
+            android:textColorHint="@color/black"
+            app:boxStrokeColor="@color/black"
+            app:endIconTint="@color/black"
+            app:helperTextTextColor="@color/black"
+            app:hintTextColor="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/scanRemarks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/average_sans"
                 android:hint="Remarks" />
         </com.google.android.material.textfield.TextInputLayout>
 

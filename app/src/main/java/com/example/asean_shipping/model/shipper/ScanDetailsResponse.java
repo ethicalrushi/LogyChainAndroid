@@ -10,6 +10,7 @@ public class ScanDetailsResponse implements Serializable {
     int packages;
     String shipmentId;
     String suggestions;
+    boolean receiver;
 
     public String getShipFromName() {
         return shipFromName;
@@ -65,5 +66,13 @@ public class ScanDetailsResponse implements Serializable {
 
     public void setSuggestions(String suggestions) {
         this.suggestions = suggestions;
+    }
+
+    public boolean isReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(boolean receiver) {
+        this.receiver = receiver;
     }
 }

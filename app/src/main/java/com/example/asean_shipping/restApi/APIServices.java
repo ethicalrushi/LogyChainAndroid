@@ -9,6 +9,7 @@ import com.example.asean_shipping.model.auth.SignupPayload;
 import com.example.asean_shipping.model.auth.UserDetailResponse;
 import com.example.asean_shipping.model.shipper.CreateShipmentGenericResponse;
 import com.example.asean_shipping.model.shipper.ReportShipFromToGenericPayload;
+import com.example.asean_shipping.model.shipper.ReportTrackDataPayload;
 import com.example.asean_shipping.model.shipper.ScanDetailsResponse;
 import com.example.asean_shipping.model.shipper.SetShipmentAgencyPayload;
 import com.example.asean_shipping.model.shipper.ShipmentAgencyListResponse;
@@ -57,5 +58,8 @@ public interface APIServices {
 
     @GET("transaction/scanQRCode/{shipmentId}/")
     Call<ScanDetailsResponse> getScanDetails(@Header("Authorization") String token, @Path("shipmentId") String shipmentId);
+
+    @POST("transaction/setTrackingInformation/")
+    Call<CreateShipmentGenericResponse> setTrackingData(@Header("Authorization") String token, @Body ReportTrackDataPayload payload);
 }
 
