@@ -1,7 +1,9 @@
 package com.example.asean_shipping;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,8 +32,12 @@ public class OrderDetailsAdapter extends ArrayAdapter<OrderDataModel> implements
     Context mContext;
     private int lastPosition = -1;
     private String shipmentId;
+    private Uri fileUri;
+    private String filePath;
+    public static final int PICKFILE_RESULT_CODE = 15;
 
     private static class ViewHolder {
+        MaterialButton addFiles;
         TextInputEditText orderID;
         TextInputEditText orderWeight;
         TextInputEditText boxes;
@@ -102,8 +108,10 @@ public class OrderDetailsAdapter extends ArrayAdapter<OrderDataModel> implements
                 sendToAPI(orderDataModel);
             }
         });
+
         return convertView;
     }
+
 
     private void sendToAPI(OrderDataModel orderDataModel){
         APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
