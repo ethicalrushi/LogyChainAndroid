@@ -68,6 +68,9 @@ public class ShipperSelectionAdapter extends ArrayAdapter<ShipperDataModel> impl
             viewHolder.cost = (TextView) convertView.findViewById(R.id.amount);
             viewHolder.shipperName = (TextView) convertView.findViewById(R.id.ShipperName);
             viewHolder.select = (MaterialButton) convertView.findViewById(R.id.selectShipper);
+            viewHolder.remarks.setText("remark");
+            viewHolder.cost.setText("Cost "+Integer.toString(shipperDataModel.cost));
+            viewHolder.shipperName.setText("Agency Name: "+shipperDataModel.name);
             result=convertView;
 
             convertView.setTag(viewHolder);
@@ -99,6 +102,7 @@ public class ShipperSelectionAdapter extends ArrayAdapter<ShipperDataModel> impl
                     public void onResponse(Call<CreateShipmentGenericResponse> call, Response<CreateShipmentGenericResponse> response) {
                         Toast.makeText(getContext(), "Shipment Order placed", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(mContext, Dashboard.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent);
                     }
 

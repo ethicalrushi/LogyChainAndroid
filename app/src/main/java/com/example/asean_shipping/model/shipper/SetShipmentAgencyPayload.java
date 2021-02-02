@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class SetShipmentAgencyPayload {
-    @SerializedName("contact")
+    @SerializedName("shipmentAgencyId")
     @Expose
     private int shipmentAgencyId;
 

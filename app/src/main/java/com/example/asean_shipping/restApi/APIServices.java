@@ -9,6 +9,7 @@ import com.example.asean_shipping.model.auth.UserDetailResponse;
 import com.example.asean_shipping.model.shipper.CreateShipmentGenericResponse;
 import com.example.asean_shipping.model.shipper.ReportShipFromToGenericPayload;
 import com.example.asean_shipping.model.shipper.SetShipmentAgencyPayload;
+import com.example.asean_shipping.model.shipper.ShipmentAgencyListResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public interface APIServices {
     Call<CreateShipmentGenericResponse> setCustomerOrder(@Header("Authorization") String token, @Body OrderDataModel payload);
 
     @GET("transaction/getShipmentAgency/")
-    Call<ArrayList<ShipperDataModel>> getShipmentAgency(@Header("Authorization") String token);
+    Call<ShipmentAgencyListResponse> getShipmentAgency(@Header("Authorization") String token);
 
     @POST("transaction/setShipmentAgency/")
     Call<CreateShipmentGenericResponse> setShipmentAgency(@Header("Authorization") String token, @Body SetShipmentAgencyPayload payload);
