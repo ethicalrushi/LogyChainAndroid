@@ -77,8 +77,6 @@ public class scanQR extends AppCompatActivity {
                     } else {
                         getLocation();
                     }
-                    latitude = "latitude";
-                    longitude = "longitude";
                     sendLocationShowData(latitude,longitude);
                 }
             });

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -49,8 +50,11 @@ public class TrackOrder extends AppCompatActivity {
         trackButton.setOnClickListener(new MaterialButton.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String inputShipmntId = shipmentIdInputText.getText().toString();
-                Toast.makeText(getApplicationContext(), inputShipmntId, Toast.LENGTH_LONG).show();
+                String inputShipmentId = shipmentIdInputText.getText().toString();
+                Intent i = new Intent(TrackOrder.this, MapActivity.class);
+                i.putExtra("shipmentId", inputShipmentId);
+                startActivity(i);
+                Toast.makeText(getApplicationContext(), inputShipmentId, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -70,6 +74,8 @@ public class TrackOrder extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<TrackDataModel>> call, Response<List<TrackDataModel>> response) {
                 dataModels = (ArrayList<TrackDataModel>) response.body();
+
+                Log.v("size" ,"onResponse: "+Integer.toString(dataModels.size()));
                 adapter = new TrackOrderAdapter(dataModels, getApplicationContext());
 
                 listView.setAdapter(adapter);

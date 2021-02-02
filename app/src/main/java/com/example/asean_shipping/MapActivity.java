@@ -6,8 +6,15 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.asean_shipping.model.shipper.GetTrackingDataResponse;
+import com.example.asean_shipping.model.shipper.ScanDetailsResponse;
+import com.example.asean_shipping.restApi.APIServices;
+import com.example.asean_shipping.restApi.AppClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,16 +22,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MapActivity extends AppCompatActivity {
 
-    public class DataObject{
-        String date;
-        String time;
-        String remark;
-        String latitude;
-        String longitude;
-        String companyName;
-    }
+    String shipmentId;
+    ArrayList<GetTrackingDataResponse> dataObjects;
+    TextView trackDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,20 +40,42 @@ public class MapActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setBackgroundColor(Color.parseColor("#006994"));
         getSupportActionBar().hide();
-        ArrayList<DataObject> dataObjects= new ArrayList<>();
-        dataObjects = getDataObjects();
-        Iterator<DataObject> iter= dataObjects.iterator();
-        TextView trackDetails = (TextView) findViewById(R.id.trackDetails);
-        String message = "";
-        while (iter.hasNext()){
-            DataObject data = iter.next();
-            try {
-                message = message + "\n\n" + "The package was received by " + data.companyName + " on "+ data.date + " at " + data.time + " at Location:" + getAddress(data.latitude, data.longitude);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        trackDetails.setText(message);
+
+        shipmentId = getIntent().getExtras().getString("shipmentId");
+
+        trackDetails = (TextView) findViewById(R.id.trackDetails);
+
+
+        APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
+        apiServices.getTrackingData(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("token", ""), shipmentId)
+                .enqueue(new Callback<List<GetTrackingDataResponse>>() {
+                    @Override
+                    public void onResponse(Call<List<GetTrackingDataResponse>> call, Response<List<GetTrackingDataResponse>> response) {
+                        dataObjects = (ArrayList<GetTrackingDataResponse>) response.body();
+                        Iterator<GetTrackingDataResponse> iter= dataObjects.iterator();
+                        String message = "";
+                        while (iter.hasNext()){
+                            GetTrackingDataResponse data = iter.next();
+                            try {
+                                message = message + "\n\n" + "The package was received by " + data.companyName + " on "+ data.date + " at " + data.time + " at Location:" + getAddress(data.latitude, data.longitude);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        if(dataObjects.size()==0) {
+                            message = "The package is yet not received by any agency";
+                        }
+                        trackDetails.setText(message);
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<GetTrackingDataResponse>> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), " api something went wrong", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
     }
 
     public String getAddress(String lat, String lng) throws IOException {
@@ -63,17 +91,16 @@ public class MapActivity extends AppCompatActivity {
         }
     }
 
-    private ArrayList<DataObject> getDataObjects() {
-        ArrayList<DataObject> dataObjects= new ArrayList<>();
-        DataObject dataObject = new DataObject();
-        dataObject.latitude = "27.176670";
-        dataObject.longitude = "78.008072";
-        dataObject.remark = "None";
-        dataObject.date = "01022021";
-        dataObject.time = "15:30 GMT";
-        dataObject.companyName = "ASEAN";
+    private void getDataObjects() {
 
-        dataObjects.add(dataObject);
-        return dataObjects;
+//        DataObject dataObject = new DataObject();
+//        dataObject.latitude = "27.176670";
+//        dataObject.longitude = "78.008072";
+//        dataObject.remark = "None";
+//        dataObject.date = "01022021";
+//        dataObject.time = "15:30 GMT";
+//        dataObject.companyName = "ASEAN";
+
+//        dataObjects.add(dataObject);
     }
 }

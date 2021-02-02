@@ -86,8 +86,8 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
 
                 ReportTrackDataPayload payload = new ReportTrackDataPayload();
                 payload.setApproved(approved);
-                payload.setLatitude("latitude");
-                payload.setLongitude("longitude");
+                payload.setLatitude(latitude);
+                payload.setLongitude(longitude);
                 payload.setShipmentId(shipmentId);
                 payload.setRemarks(remarkText);
 
