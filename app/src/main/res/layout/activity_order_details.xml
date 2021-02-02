@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#009dc4"
-        android:text="Add Order"
+        android:text="Add Files"
         app:layout_constraintBottom_toBottomOf="@+id/submitOrder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
