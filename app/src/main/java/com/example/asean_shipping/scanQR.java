@@ -1,6 +1,7 @@
 package com.example.asean_shipping;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,6 +30,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
+import java.util.List;
 
 public class scanQR extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 1;
@@ -42,6 +44,7 @@ public class scanQR extends AppCompatActivity {
     String latitude;
     String longitude;
     String shipmentId;
+    LocationManager mLocationManager;
     LocationManager locationManager;
 
     @Override
@@ -104,7 +107,7 @@ public class scanQR extends AppCompatActivity {
                 scanQR.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         } else {
-            Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location locationGPS = getLastKnownLocation();
             if (locationGPS != null) {
                 double lat = locationGPS.getLatitude();
                 double longi = locationGPS.getLongitude();
@@ -115,6 +118,23 @@ public class scanQR extends AppCompatActivity {
                 Toast.makeText(this, "Unable to find location.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private Location getLastKnownLocation() {
+        mLocationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            @SuppressLint("MissingPermission") Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
     }
 
         private void initialiseDetectorsAndSources () {
