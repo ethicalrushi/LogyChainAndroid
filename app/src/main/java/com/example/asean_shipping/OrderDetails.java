@@ -19,6 +19,7 @@ public class OrderDetails extends AppCompatActivity {
     ListView listView;
     private static OrderDetailsAdapter adapter;
     public String shipmentId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,7 @@ public class OrderDetails extends AppCompatActivity {
         listView.setDivider(null);
 
         shipmentId = getIntent().getExtras().getString("shipmentId");
+        (shipmentId+" ").trim();
 
         dataModels = new ArrayList<>();
         dataModels.add(new OrderDataModel());
