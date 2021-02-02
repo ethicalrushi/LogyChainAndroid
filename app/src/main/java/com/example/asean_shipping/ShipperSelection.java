@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.asean_shipping.model.auth.UserDetailResponse;
+import com.example.asean_shipping.model.shipper.ShipmentAgencyListResponse;
 import com.example.asean_shipping.restApi.APIServices;
 import com.example.asean_shipping.restApi.AppClient;
 
@@ -45,31 +47,34 @@ public class ShipperSelection extends AppCompatActivity {
 
         receiveShippers();
 
-        adapter = new ShipperSelectionAdapter(dataModels, getApplicationContext(), shipmentId);
 
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                ShipperDataModel dataModel = dataModels.get(position);
-            }
-        });
 
     }
 
     public void receiveShippers(){
 
         APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
-        apiServices.getShipmentAgency(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("token", ""))
-                .enqueue(new Callback<ArrayList<ShipperDataModel>>() {
+        Call call = apiServices.getShipmentAgency(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("token", ""));
+                call.enqueue(new Callback<ShipmentAgencyListResponse>() {
                     @Override
-                    public void onResponse(Call<ArrayList<ShipperDataModel>> call, Response<ArrayList<ShipperDataModel>> response) {
-                        dataModels = response.body();
+                    public void onResponse(Call<ShipmentAgencyListResponse> call, Response<ShipmentAgencyListResponse> response) {
+                        Log.e("shipmentAgency", "onResponse: "+response.body().data.get(0).name);
+                        dataModels = response.body().data;
+                        adapter = new ShipperSelectionAdapter(dataModels, getApplicationContext(), shipmentId);
+
+                        listView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                                ShipperDataModel dataModel = dataModels.get(position);
+                            }
+                        });
                     }
 
                     @Override
-                    public void onFailure(Call<ArrayList<ShipperDataModel>> call, Throwable t) {
+                    public void onFailure(Call<ShipmentAgencyListResponse> call, Throwable t) {
                         Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_LONG).show();
                     }
                 });

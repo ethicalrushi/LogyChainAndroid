@@ -19,7 +19,6 @@ public class TrackOrderAdapter extends ArrayAdapter<TrackDataModel> implements V
     private ArrayList<TrackDataModel> dataSet;
     Context mContext;
     private int lastPosition = -1;
-    public String shipmentId;
 
     private static class ViewHolder {
         TextView toContact;
@@ -28,11 +27,10 @@ public class TrackOrderAdapter extends ArrayAdapter<TrackDataModel> implements V
         MaterialButton showqr;
     }
 
-    public TrackOrderAdapter(ArrayList<TrackDataModel> data, Context context, String shipmentId) {
+    public TrackOrderAdapter(ArrayList<TrackDataModel> data, Context context) {
         super(context, R.layout.row_item_track_order, data);
         this.dataSet = data;
         this.mContext = context;
-        this.shipmentId = shipmentId;
     }
 
     @Override
@@ -50,12 +48,16 @@ public class TrackOrderAdapter extends ArrayAdapter<TrackDataModel> implements V
 
             viewHolder = new TrackOrderAdapter.ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.row_item_shipper, parent, false);
+            convertView = inflater.inflate(R.layout.row_item_track_order, parent, false);
             viewHolder.toContact = (TextView) convertView.findViewById(R.id.toContact);
             viewHolder.shipId = (TextView) convertView.findViewById(R.id.ShipID);
             viewHolder.track = (MaterialButton) convertView.findViewById(R.id.trackOrderbtn);
             viewHolder.showqr = (MaterialButton) convertView.findViewById(R.id.showqr);
             result=convertView;
+
+            viewHolder.toContact.setText("Shipping To: "+trackDataModel.getShipToName());
+            viewHolder.shipId.setText("ShipmentID: "+trackDataModel.getShipmentId());
+            //put city also here
 
             convertView.setTag(viewHolder);
         } else {
@@ -70,14 +72,16 @@ public class TrackOrderAdapter extends ArrayAdapter<TrackDataModel> implements V
             @Override
             public void onClick(View v){
                 Intent i = new Intent(mContext, MapActivity.class);
-                i.putExtra("shipmentId", shipmentId);
+                i.putExtra("shipmentId", trackDataModel.getShipmentId());
             }
         });
         viewHolder.showqr.setOnClickListener(new MaterialButton.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent i = new Intent(mContext, showQR.class);
-                i.putExtra("shipmentId", shipmentId);
+                i.putExtra("shipmentId", trackDataModel.getShipmentId());
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(i);
             }
         });
         return convertView;

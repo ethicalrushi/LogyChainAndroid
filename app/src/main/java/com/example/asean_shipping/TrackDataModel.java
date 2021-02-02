@@ -2,15 +2,9 @@ package com.example.asean_shipping;
 
 public class TrackDataModel {
     String shipmentId;
-    String toContact;
+    String shipToName;
+    String shipToCity;
 
-    public String getToContact() {
-        return toContact;
-    }
-
-    public void setToContact(String toContact) {
-        this.toContact = toContact;
-    }
 
     public String getShipmentId() {
         return shipmentId;
@@ -18,5 +12,21 @@ public class TrackDataModel {
 
     public void setShipmentId(String shipmentId) {
         this.shipmentId = shipmentId;
+    }
+
+    public String getShipToName() {
+        return shipToName;
+    }
+
+    public void setShipToName(String shipToName) {
+        this.shipToName = shipToName;
+    }
+
+    public String getShipToCity() {
+        return shipToCity;
+    }
+
+    public void setShipToCity(String shipToCity) {
+        this.shipToCity = shipToCity;
     }
 }

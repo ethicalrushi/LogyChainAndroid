@@ -1,8 +1,5 @@
 package com.example.asean_shipping;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,9 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.SparseArray;
@@ -25,14 +20,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
-
-import static androidx.constraintlayout.motion.widget.Debug.getLocation;
 
 public class scanQR extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 1;
@@ -45,6 +41,7 @@ public class scanQR extends AppCompatActivity {
     String intentData = "";
     String latitude;
     String longitude;
+    String shipmentId;
     LocationManager locationManager;
 
     @Override
@@ -77,6 +74,8 @@ public class scanQR extends AppCompatActivity {
                     } else {
                         getLocation();
                     }
+                    latitude = "latitude";
+                    longitude = "longitude";
                     sendLocationShowData(latitude,longitude);
                 }
             });
@@ -179,6 +178,7 @@ public class scanQR extends AppCompatActivity {
                                     txtBarcodeValue.removeCallbacks(null);
                                     intentData = barcodes.valueAt(0).rawValue;
                                     txtBarcodeValue.setText(intentData);
+                                    shipmentId = intentData;
                             }
                         });
 
@@ -199,6 +199,10 @@ public class scanQR extends AppCompatActivity {
         }
 
         public void sendLocationShowData(String latitude, String longitude){
-
+            Intent intent = new Intent(scanQR.this, PostScanConfirmationActivity.class);
+            intent.putExtra("shipmentId",shipmentId);
+            intent.putExtra("longitude", longitude);
+            intent.putExtra("latitude", latitude);
+            startActivity(intent);
         }
     }
