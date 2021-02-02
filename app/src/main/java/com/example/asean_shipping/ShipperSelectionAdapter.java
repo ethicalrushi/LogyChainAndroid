@@ -98,7 +98,8 @@ public class ShipperSelectionAdapter extends ArrayAdapter<ShipperDataModel> impl
                     @Override
                     public void onResponse(Call<CreateShipmentGenericResponse> call, Response<CreateShipmentGenericResponse> response) {
                         Toast.makeText(getContext(), "Shipment Order placed", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(mContext, Dashboard.class);
+                        Intent intent = new Intent(mContext, showQR.class);
+                        intent.putExtra("shipmentId", shipmentId);
                         mContext.startActivity(intent);
                     }
 
