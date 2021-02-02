@@ -38,6 +38,7 @@ public class Dashboard extends AppCompatActivity {
         Button shipPackage = (Button) findViewById(R.id.button);
         Button trackOrders = (Button) findViewById(R.id.button3);
         Button financials = (Button) findViewById(R.id.button5);
+        Button scanQR = (Button) findViewById(R.id.qrscan);
 
         shipPackage.setOnClickListener(new Button.OnClickListener()
             {
@@ -66,6 +67,13 @@ public class Dashboard extends AppCompatActivity {
                         startActivity(i);
                     }
             });
+        scanQR.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i = new Intent(Dashboard.this, scanQR.class);
+                startActivity(i);
+            }
+        });
     }
 
     private String getCreditAvailBal() {
