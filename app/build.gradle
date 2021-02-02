@@ -48,4 +48,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
     implementation "com.squareup.okhttp3:okhttp:$OK_HTTP_VERSION"
     implementation "com.squareup.okhttp3:logging-interceptor:$OK_HTTP_VERSION"
+
+    //QRCode
+    implementation "androidmads.library.qrgenearator:QRGenearator:1.0.3"
 }
