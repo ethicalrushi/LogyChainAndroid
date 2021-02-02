@@ -101,7 +101,7 @@
             android:background="@android:color/darker_gray" />
 
         <TextView
-            android:id="@+id/sacnSuggestions"
+            android:id="@+id/scanSuggestions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

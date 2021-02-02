@@ -9,6 +9,7 @@ import com.example.asean_shipping.model.auth.SignupPayload;
 import com.example.asean_shipping.model.auth.UserDetailResponse;
 import com.example.asean_shipping.model.shipper.CreateShipmentGenericResponse;
 import com.example.asean_shipping.model.shipper.ReportShipFromToGenericPayload;
+import com.example.asean_shipping.model.shipper.ScanDetailsResponse;
 import com.example.asean_shipping.model.shipper.SetShipmentAgencyPayload;
 import com.example.asean_shipping.model.shipper.ShipmentAgencyListResponse;
 
@@ -20,6 +21,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface APIServices {
 
@@ -52,4 +54,8 @@ public interface APIServices {
 
     @GET("transaction/getShipmentOrdersShipper/")
     Call<List<TrackDataModel>> getShipmentOrdersShipper(@Header("Authorization") String token);
+
+    @GET("transaction/scanQRCode/{shipmentId}/")
+    Call<ScanDetailsResponse> getScanDetails(@Header("Authorization") String token, @Path("shipmentId") String shipmentId);
 }
+

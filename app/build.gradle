@@ -52,4 +52,5 @@ dependencies {
     //QRCode
     implementation "androidmads.library.qrgenearator:QRGenearator:1.0.3"
     implementation 'com.google.android.gms:play-services-vision:11.8.0'
+
 }
