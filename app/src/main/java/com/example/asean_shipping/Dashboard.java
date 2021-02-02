@@ -6,15 +6,27 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.asean_shipping.fragments.CreateShipFrom;
+import com.example.asean_shipping.model.shipper.CreateShipmentGenericResponse;
+import com.example.asean_shipping.model.shipper.ScoreResponse;
+import com.example.asean_shipping.restApi.APIServices;
+import com.example.asean_shipping.restApi.AppClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class Dashboard extends AppCompatActivity {
+    double creditScore=0;
+    double balance=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +41,28 @@ public class Dashboard extends AppCompatActivity {
         TextView debitAvail = (TextView) findViewById(R.id.debitAvail);
         TextView debitAvailBal = (TextView) findViewById(R.id.debitAvailBal);
 
-        debitAvail.setText("Wallet Balance");
-        debitAvailBal.setText(getDebitAvailBal());
+        APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
+        apiServices.getScores(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("token", ""))
+                .enqueue(new Callback<ScoreResponse>() {
+                    @Override
+                    public void onResponse(Call<ScoreResponse> call, Response<ScoreResponse> response) {
+                        balance = response.body().getBalance();
+                        creditScore = response.body().getCreditScore();
 
-        creditAvail.setText("Credit Available");
-        creditAvailBal.setText(getCreditAvailBal());
+                        debitAvail.setText("Wallet Balance");
+                        debitAvailBal.setText(Double.toString(balance));
+
+                        creditAvail.setText("Credit Available");
+                        creditAvailBal.setText(Double.toString(creditScore));
+                    }
+
+                    @Override
+                    public void onFailure(Call<ScoreResponse> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
 
         Button shipPackage = (Button) findViewById(R.id.button);
         Button trackOrders = (Button) findViewById(R.id.button3);
@@ -76,12 +105,4 @@ public class Dashboard extends AppCompatActivity {
         });
     }
 
-    private String getCreditAvailBal() {
-        return "1000.00 $";
-    }
-
-
-    private String getDebitAvailBal() {
-        return "1000.00 $";
-    }
 }

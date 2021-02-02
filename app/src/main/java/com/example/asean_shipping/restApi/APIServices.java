@@ -12,6 +12,7 @@ import com.example.asean_shipping.model.shipper.GetTrackingDataResponse;
 import com.example.asean_shipping.model.shipper.ReportShipFromToGenericPayload;
 import com.example.asean_shipping.model.shipper.ReportTrackDataPayload;
 import com.example.asean_shipping.model.shipper.ScanDetailsResponse;
+import com.example.asean_shipping.model.shipper.ScoreResponse;
 import com.example.asean_shipping.model.shipper.SetShipmentAgencyPayload;
 import com.example.asean_shipping.model.shipper.ShipmentAgencyListResponse;
 
@@ -65,5 +66,8 @@ public interface APIServices {
 
     @GET("transaction/getTrackingInformation/{shipmentId}/")
     Call<List<GetTrackingDataResponse>> getTrackingData(@Header("Authorization") String token, @Path("shipmentId") String shipmentId);
+
+    @GET("transaction/getScores/")
+    Call<ScoreResponse> getScores(@Header("Authorization") String token);
 }
 

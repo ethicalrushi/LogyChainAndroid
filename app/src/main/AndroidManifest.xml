@@ -25,6 +25,7 @@
         <activity android:name=".ShippingActivity" />
         <activity android:name=".TrackOrder" />
         <activity android:name=".Financials" />
+        <activity android:name=".BOLActivity"/>
         <activity android:name=".PostScanConfirmationActivity"/>
     </application>
     <meta-data

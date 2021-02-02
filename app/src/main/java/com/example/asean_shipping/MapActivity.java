@@ -2,12 +2,15 @@ package com.example.asean_shipping;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +34,7 @@ public class MapActivity extends AppCompatActivity {
     String shipmentId;
     ArrayList<GetTrackingDataResponse> dataObjects;
     TextView trackDetails;
+    Button viewBol;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,16 @@ public class MapActivity extends AppCompatActivity {
         shipmentId = getIntent().getExtras().getString("shipmentId");
 
         trackDetails = (TextView) findViewById(R.id.trackDetails);
+        viewBol = (Button) findViewById(R.id.mapViewBol);
+
+        viewBol.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MapActivity.this, BOLActivity.class);
+                i.putExtra("shipmentId", shipmentId);
+                startActivity(i);
+            }
+        });
 
 
         APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
