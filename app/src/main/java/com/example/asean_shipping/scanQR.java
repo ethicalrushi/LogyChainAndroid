@@ -55,6 +55,7 @@ public class scanQR extends AppCompatActivity {
         ActivityCompat.requestPermissions( this,
                 new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
+
         initViews();
     }
 
@@ -109,6 +110,7 @@ public class scanQR extends AppCompatActivity {
                 double longi = locationGPS.getLongitude();
                 latitude = String.valueOf(lat);
                 longitude = String.valueOf(longi);
+                Toast.makeText(this, latitude, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Unable to find location.", Toast.LENGTH_SHORT).show();
             }
