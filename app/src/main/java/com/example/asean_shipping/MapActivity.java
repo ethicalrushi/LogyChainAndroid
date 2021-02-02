@@ -56,9 +56,7 @@ public class MapActivity extends AppCompatActivity {
         List<Address> addresses = gcd.getFromLocation(Double.parseDouble(lat), Double.parseDouble(lng), 1);
         if (addresses.size() > 0) {
             city = addresses.get(0).getAddressLine(0);
-            state = addresses.get(0).getAddressLine(1);
-            country = addresses.get(0).getAddressLine(2);
-            return (city + ", " + country);
+            return city;
         }
         else {
             return "NA, NA";

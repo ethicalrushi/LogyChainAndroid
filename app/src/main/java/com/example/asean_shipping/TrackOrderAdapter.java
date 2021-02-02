@@ -73,6 +73,7 @@ public class TrackOrderAdapter extends ArrayAdapter<TrackDataModel> implements V
             public void onClick(View v){
                 Intent i = new Intent(mContext, MapActivity.class);
                 i.putExtra("shipmentId", trackDataModel.getShipmentId());
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(i);
             }
         });
