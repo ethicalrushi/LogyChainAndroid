@@ -72,13 +72,13 @@ public class ViewOrderAdapter extends ArrayAdapter<OrderDataModel> implements Vi
         Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
         result.startAnimation(animation);
         lastPosition = position;
-        viewHolder.boxes.setText(orderDataModel.getNumberOfPackages());
+        viewHolder.boxes.setText(Integer.toString(orderDataModel.getNumberOfPackages()));
         viewHolder.boxes.setEnabled(false);
-        viewHolder.orderID.setText(orderDataModel.getOrderNumber());
+        viewHolder.orderID.setText(Integer.toString(orderDataModel.getOrderNumber()));
         viewHolder.orderID.setEnabled(false);
-        viewHolder.orderWeight.setText(orderDataModel.getWeight());
+        viewHolder.orderWeight.setText(Integer.toString(orderDataModel.getWeight()));
         viewHolder.orderWeight.setEnabled(false);
-        viewHolder.orderAmount.setText(orderDataModel.getCost());
+        viewHolder.orderAmount.setText(Integer.toString(orderDataModel.getCost()));
         viewHolder.orderAmount.setEnabled(false);
         viewHolder.orderRemarks.setText(orderDataModel.getRemarks());
         viewHolder.orderRemarks.setEnabled(false);
