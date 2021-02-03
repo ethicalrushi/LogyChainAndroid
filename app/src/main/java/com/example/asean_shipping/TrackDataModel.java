@@ -3,6 +3,16 @@ package com.example.asean_shipping;
 public class TrackDataModel {
     String shipmentId;
     String shipToName;
+
+    public String getShipFromName() {
+        return shipFromName;
+    }
+
+    public void setShipFromName(String shipFromName) {
+        this.shipFromName = shipFromName;
+    }
+
+    String shipFromName;
     String shipToCity;
 
 
@@ -30,11 +40,4 @@ public class TrackDataModel {
         this.shipToCity = shipToCity;
     }
 
-    public String getShipFromName() {
-        return shipToName;
-    }
-
-    public void setShipFromName(String shipToName) {
-        this.shipToName = shipToName;
-    }
 }

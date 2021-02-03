@@ -46,9 +46,9 @@ public class PendingOrderAdapter extends ArrayAdapter<TrackDataModel> implements
 
             viewHolder = new PendingOrderAdapter.ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.row_item_track_order, parent, false);
-            viewHolder.toContact = (TextView) convertView.findViewById(R.id.toContact);
-            viewHolder.shipId = (TextView) convertView.findViewById(R.id.ShipID);
+            convertView = inflater.inflate(R.layout.row_item_pendng_order, parent, false);
+            viewHolder.toContact = (TextView) convertView.findViewById(R.id.fromContact);
+            viewHolder.shipId = (TextView) convertView.findViewById(R.id.ShipIDPend);
             viewHolder.seeDetails = (MaterialButton) convertView.findViewById(R.id.seeOrderbtn);
             result=convertView;
 
@@ -66,6 +66,7 @@ public class PendingOrderAdapter extends ArrayAdapter<TrackDataModel> implements
         Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
         result.startAnimation(animation);
         lastPosition = position;
+
         viewHolder.seeDetails.setOnClickListener(new MaterialButton.OnClickListener(){
             @Override
             public void onClick(View v){

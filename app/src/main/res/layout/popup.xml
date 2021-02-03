@@ -44,6 +44,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/payBtn"
+                        android:layout_marginTop="20dp"
                         style = "@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

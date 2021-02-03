@@ -9,6 +9,9 @@ import com.example.asean_shipping.model.auth.SignupPayload;
 import com.example.asean_shipping.model.auth.UserDetailResponse;
 import com.example.asean_shipping.model.shipper.CreateShipmentGenericResponse;
 import com.example.asean_shipping.model.shipper.GetTrackingDataResponse;
+import com.example.asean_shipping.model.shipper.OrderDetailResponse;
+import com.example.asean_shipping.model.shipper.PaymentResponse;
+import com.example.asean_shipping.model.shipper.PrivateKeyPayload;
 import com.example.asean_shipping.model.shipper.ReportShipFromToGenericPayload;
 import com.example.asean_shipping.model.shipper.ReportTrackDataPayload;
 import com.example.asean_shipping.model.shipper.ScanDetailsResponse;
@@ -69,5 +72,14 @@ public interface APIServices {
 
     @GET("transaction/getScores/")
     Call<ScoreResponse> getScores(@Header("Authorization") String token);
+
+    @GET("transaction/getPendingOrdersReceiver/")
+    Call<List<TrackDataModel>> getPendingOrders(@Header("Authorization") String token);
+
+    @GET("transaction/getOrderDetails/{shipmentId}/")
+    Call<List<OrderDataModel>> getOrderDetails(@Header("Authorization") String token, @Path("shipmentId") String shipmentId);
+
+    @POST("transaction/blockPayment/")
+    Call<PaymentResponse> blockPayment(@Header("Authorization") String token, @Body PrivateKeyPayload payload);
 }
 

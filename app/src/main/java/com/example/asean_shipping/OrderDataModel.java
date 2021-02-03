@@ -1,13 +1,13 @@
 package com.example.asean_shipping;
 
 public class OrderDataModel {
-    public  String shipmentId;
-    public int orderNumber;
-    public int weight;
-    public int numberOfPackages;
-    public int cost;
-    public String remarks;
 
+    int orderNumber;
+    int numberOfPackages;
+    int weight;
+    int cost;
+    String remarks;
+    String shipmentId;
 
     public int getOrderNumber() {
         return orderNumber;
@@ -17,20 +17,20 @@ public class OrderDataModel {
         this.orderNumber = orderNumber;
     }
 
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
     public int getNumberOfPackages() {
         return numberOfPackages;
     }
 
     public void setNumberOfPackages(int numberOfPackages) {
         this.numberOfPackages = numberOfPackages;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     public int getCost() {
