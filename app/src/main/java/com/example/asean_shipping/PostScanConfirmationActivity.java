@@ -122,19 +122,23 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v){
                                 privateKey[0] = privateKeyInput.getText().toString();
+                                processPaymentfromDebit(privateKey[0]);
+
+
                             }
                         });
-                        processPaymentfromDebit(privateKey[0]);
+
                     }
+                    else {
+                        ReportTrackDataPayload payload = new ReportTrackDataPayload();
+                        payload.setApproved(approved);
+                        payload.setLatitude(latitude);
+                        payload.setLongitude(longitude);
+                        payload.setShipmentId(shipmentId);
+                        payload.setRemarks(remarkText);
 
-                    ReportTrackDataPayload payload = new ReportTrackDataPayload();
-                    payload.setApproved(approved);
-                    payload.setLatitude(latitude);
-                    payload.setLongitude(longitude);
-                    payload.setShipmentId(shipmentId);
-                    payload.setRemarks(remarkText);
-
-                    sendTrackData(payload);
+                        sendTrackData(payload);
+                    }
                 }
             });
 
@@ -225,6 +229,15 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
         call.enqueue(new Callback<PaymentResponse>() {
             @Override
             public void onResponse(Call<PaymentResponse> call, Response<PaymentResponse> response) {
+                ReportTrackDataPayload payload = new ReportTrackDataPayload();
+                payload.setApproved(true);
+                payload.setLatitude(latitude);
+                payload.setLongitude(longitude);
+                payload.setShipmentId(shipmentId);
+                payload.setRemarks("");
+
+                sendTrackData(payload);
+
                 Toast.makeText(getApplicationContext(), "Order acknowledged and payment secured", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(PostScanConfirmationActivity.this, Dashboard.class);
                 startActivity(intent);
