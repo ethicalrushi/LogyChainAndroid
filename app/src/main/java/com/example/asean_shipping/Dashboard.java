@@ -68,6 +68,7 @@ public class Dashboard extends AppCompatActivity {
         Button trackOrders = (Button) findViewById(R.id.button3);
         Button financials = (Button) findViewById(R.id.button5);
         Button scanQR = (Button) findViewById(R.id.qrscan);
+        Button viewPending = (Button) findViewById(R.id.pendingApp);
 
         shipPackage.setOnClickListener(new Button.OnClickListener()
             {
@@ -100,6 +101,13 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent i = new Intent(Dashboard.this, scanQR.class);
+                startActivity(i);
+            }
+        });
+        viewPending.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i = new Intent(Dashboard.this, PendingOrders.class);
                 startActivity(i);
             }
         });

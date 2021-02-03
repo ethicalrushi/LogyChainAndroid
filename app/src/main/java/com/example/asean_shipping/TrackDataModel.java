@@ -29,4 +29,12 @@ public class TrackDataModel {
     public void setShipToCity(String shipToCity) {
         this.shipToCity = shipToCity;
     }
+
+    public String getShipFromName() {
+        return shipToName;
+    }
+
+    public void setShipFromName(String shipToName) {
+        this.shipToName = shipToName;
+    }
 }
