@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "891213411754",
+    "project_id": "asean-logychain53",
+    "storage_bucket": "asean-logychain53.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891213411754:android:78fcb6f754085cb5e0a7d3",
+        "android_client_info": {
+          "package_name": "com.example.asean_shipping"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891213411754-91ebvbtp0qvqu5ve1a6qp0b64vs45o5j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQZc6cU3aR9KL2jK6wSSJwnEMQxJ0JO58"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891213411754-91ebvbtp0qvqu5ve1a6qp0b64vs45o5j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

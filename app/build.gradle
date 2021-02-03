@@ -29,6 +29,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-storage:19.2.1'
     final RETROFIT_VERSION = '2.5.0'
     final OK_HTTP_VERSION = '3.14.2'
     final lottieVersion = '3.0.7'
