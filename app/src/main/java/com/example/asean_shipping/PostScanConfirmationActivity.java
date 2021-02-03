@@ -1,12 +1,17 @@
 package com.example.asean_shipping;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +22,7 @@ import com.example.asean_shipping.model.shipper.ReportTrackDataPayload;
 import com.example.asean_shipping.model.shipper.ScanDetailsResponse;
 import com.example.asean_shipping.restApi.APIServices;
 import com.example.asean_shipping.restApi.AppClient;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import retrofit2.Call;
@@ -30,6 +36,7 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
     Button accept, reject, viewBol;
     String shipmentId, latitude, longitude;
     Boolean receiverFlag=false;
+    PopupWindow popupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,46 +81,63 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_LONG).show();
                     }
                 });
+            if (receiverFlag)
+            {
+                View b = findViewById(R.id.scanDisapproveBtn);
+                b.setVisibility(View.GONE);
+            }
 
-        accept.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String remarkText = remarks.getText().toString();
-                boolean approved = true;
+            accept.setOnClickListener(new Button.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String remarkText = remarks.getText().toString();
+                    boolean approved = true;
 
-                if(receiverFlag) {
-                    //call new intent for final payment and pass below values and set track data their
+                    if (receiverFlag) {
+                        LayoutInflater layoutInflater = (LayoutInflater) PostScanConfirmationActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View customView = layoutInflater.inflate(R.layout.popup,null);
+                        popupWindow = new PopupWindow(customView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+                        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+                        TextInputEditText privateKeyInput = (TextInputEditText) findViewById(R.id.privateKey);
+                        MaterialButton pay = (MaterialButton) findViewById(R.id.payBtn);
+                        final String[] privateKey = new String[1];
+                        pay.setOnClickListener(new Button.OnClickListener(){
+                            @Override
+                            public void onClick(View v){
+                                privateKey[0] = privateKeyInput.getText().toString();
+                            }
+                        });
+                        processPaymentfromDebit(privateKey[0]);
+                    }
+
+                    ReportTrackDataPayload payload = new ReportTrackDataPayload();
+                    payload.setApproved(approved);
+                    payload.setLatitude(latitude);
+                    payload.setLongitude(longitude);
+                    payload.setShipmentId(shipmentId);
+                    payload.setRemarks(remarkText);
+
+                    sendTrackData(payload);
                 }
+            });
 
-                ReportTrackDataPayload payload = new ReportTrackDataPayload();
-                payload.setApproved(approved);
-                payload.setLatitude(latitude);
-                payload.setLongitude(longitude);
-                payload.setShipmentId(shipmentId);
-                payload.setRemarks(remarkText);
+            reject.setOnClickListener(new Button.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String remarkText = remarks.getText().toString();
+                    boolean approved = false;
 
-                sendTrackData(payload);
-            }
-        });
+                    ReportTrackDataPayload payload = new ReportTrackDataPayload();
+                    payload.setApproved(approved);
+                    payload.setLatitude(latitude);
+                    payload.setLongitude(longitude);
+                    payload.setShipmentId(shipmentId);
+                    payload.setRemarks(remarkText);
 
-        reject.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String remarkText = remarks.getText().toString();
-                boolean approved = false;
+                    sendTrackData(payload);
 
-                ReportTrackDataPayload payload = new ReportTrackDataPayload();
-                payload.setApproved(approved);
-                payload.setLatitude(latitude);
-                payload.setLongitude(longitude);
-                payload.setShipmentId(shipmentId);
-                payload.setRemarks(remarkText);
-
-                sendTrackData(payload);
-
-            }
-        });
-
+                }
+            });
         viewBol.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,5 +172,9 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+    }
+
+    public void processPaymentfromDebit(String privateKey){
+
     }
 }
