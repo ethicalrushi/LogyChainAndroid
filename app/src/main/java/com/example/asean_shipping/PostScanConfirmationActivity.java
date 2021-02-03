@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.asean_shipping.model.shipper.CostRemainingResponse;
 import com.example.asean_shipping.model.shipper.CreateShipmentGenericResponse;
 import com.example.asean_shipping.model.shipper.PaymentResponse;
 import com.example.asean_shipping.model.shipper.PrivateKeyPayload;
@@ -52,6 +53,7 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
     String shipmentId, latitude, longitude;
     Boolean receiverFlag=false;
     PopupWindow popupWindow;
+    int remCost;
     private StorageReference mStorageRef;
 
     @Override
@@ -79,6 +81,22 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
         reject = (Button) findViewById(R.id.scanDisapproveBtn);
         viewBol = (Button) findViewById(R.id.scanViewBol);
         attachedFiles = (Button) findViewById(R.id.getFiles);
+
+        remCost = 0;
+
+        APIServices apiServices1 = AppClient.getInstance().createService(APIServices.class);
+        Call call = apiServices1.getRemainingCost(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("token", ""), shipmentId);
+        call.enqueue(new Callback<CostRemainingResponse>() {
+            @Override
+            public void onResponse(Call<CostRemainingResponse> call, Response<CostRemainingResponse> response) {
+                remCost = response.body().getCost();
+            }
+
+            @Override
+            public void onFailure(Call<CostRemainingResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Insufficient balance to secure the order", Toast.LENGTH_LONG).show();
+            }
+        });
 
         APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
         apiServices.getScanDetails(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("token", ""), shipmentId)
@@ -115,6 +133,8 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
                         View customView = layoutInflater.inflate(R.layout.popup,null);
                         popupWindow = new PopupWindow(customView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
                         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+                        TextView costText = (TextView) customView.findViewById(R.id.remainingCost);
+                        costText.setText("Due Amount from credit: "+Integer.toString(remCost));
                         TextInputEditText privateKeyInput = (TextInputEditText) customView.findViewById(R.id.privateKey);
                         MaterialButton pay = (MaterialButton) customView.findViewById(R.id.payBtn);
                         final String[] privateKey = new String[1];

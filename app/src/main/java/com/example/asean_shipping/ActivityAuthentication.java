@@ -138,17 +138,11 @@ public class ActivityAuthentication extends BaseActivity {
 
     void goToDash(String role) {
         switch (role) {
-            case "SHP":
+
+            default:
                 Intent intent = new Intent(ActivityAuthentication.this, Dashboard.class);
                 startActivity(intent);
                 finish();
-                break;
-
-//            case "SPM":
-//                intent = new Intent(ActivityAuthentication.this, ActivityBuyer.class);
-//                startActivity(intent);
-//                finish();
-//                break;
         }
     }
 

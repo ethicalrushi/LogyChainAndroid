@@ -49,7 +49,9 @@ public class Dashboard extends AppCompatActivity {
                         balance = response.body().getBalance();
                         creditScore = response.body().getCreditScore();
 
-                        debitAvail.setText("Wallet Balance");
+                        String userName = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("name", "");
+
+                        debitAvail.setText(userName+" - Wallet Balance");
                         debitAvailBal.setText(Double.toString(balance));
 
                         creditAvail.setText("Credit Available");

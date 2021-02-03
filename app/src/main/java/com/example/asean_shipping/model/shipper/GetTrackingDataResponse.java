@@ -9,6 +9,17 @@ public class GetTrackingDataResponse implements Serializable {
     public String latitude;
     public String longitude;
     public String companyName;
+    public boolean approved;
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+
 
     public String getDate() {
         return date;

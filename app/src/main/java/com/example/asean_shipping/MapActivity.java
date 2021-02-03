@@ -70,8 +70,12 @@ public class MapActivity extends AppCompatActivity {
                         String message = "";
                         while (iter.hasNext()){
                             GetTrackingDataResponse data = iter.next();
+                            String prefix = "Shipment Broken : ";
+                            if(data.approved) {
+                                prefix = "Shipment Secure : ";
+                            }
                             try {
-                                message = message + "\n\n" + "The package was received by " + data.companyName + " on "+ data.date + " at " + data.time + " at Location:" + getAddress(data.latitude, data.longitude);
+                                message = message + "\n\n" + prefix+"The package was received by " + data.companyName + " on "+ data.date + " at " + data.time + " at Location:" + getAddress(data.latitude, data.longitude);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

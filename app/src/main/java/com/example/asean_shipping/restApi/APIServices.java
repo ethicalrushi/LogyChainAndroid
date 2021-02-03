@@ -7,6 +7,7 @@ import com.example.asean_shipping.model.auth.LoginPayload;
 import com.example.asean_shipping.model.auth.LoginResponse;
 import com.example.asean_shipping.model.auth.SignupPayload;
 import com.example.asean_shipping.model.auth.UserDetailResponse;
+import com.example.asean_shipping.model.shipper.CostRemainingResponse;
 import com.example.asean_shipping.model.shipper.CreateShipmentGenericResponse;
 import com.example.asean_shipping.model.shipper.GetTrackingDataResponse;
 import com.example.asean_shipping.model.shipper.OrderDetailResponse;
@@ -81,8 +82,12 @@ public interface APIServices {
 
     @POST("transaction/blockPayment/")
     Call<PaymentResponse> blockPayment(@Header("Authorization") String token, @Body PrivateKeyPayload payload);
+
     @POST("transaction/finalPayment/")
     Call<PaymentResponse> finalPayment(@Header("Authorization") String token, @Body PrivateKeyPayload payload);
+
+    @GET("transaction/getRemainingCost/{shipmentId}/")
+    Call<CostRemainingResponse> getRemainingCost(@Header("Authorization") String token, @Path("shipmentId") String shipmentId);
 
 }
 

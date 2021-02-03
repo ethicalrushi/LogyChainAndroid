@@ -17,8 +17,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asean_shipping.model.shipper.CostRemainingResponse;
 import com.example.asean_shipping.model.shipper.PaymentResponse;
 import com.example.asean_shipping.model.shipper.PrivateKeyPayload;
 import com.example.asean_shipping.restApi.APIServices;
@@ -39,6 +41,7 @@ public class ViewOrderDetails extends AppCompatActivity {
     private static ViewOrderAdapter adapter;
     String shipmentId;
     PopupWindow popupWindow;
+    int remCost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +53,25 @@ public class ViewOrderDetails extends AppCompatActivity {
         getSupportActionBar().hide();
         shipmentId = getIntent().getExtras().getString("shipmentId");
 
+        remCost = 0;
+
         listView = (ListView) findViewById(R.id.detailsView);
         listView.setDivider(null);
         Button payment = (Button) findViewById(R.id.pay);
+
+        APIServices apiServices1 = AppClient.getInstance().createService(APIServices.class);
+        Call call = apiServices1.getRemainingCost(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("token", ""), shipmentId);
+        call.enqueue(new Callback<CostRemainingResponse>() {
+            @Override
+            public void onResponse(Call<CostRemainingResponse> call, Response<CostRemainingResponse> response) {
+                remCost = response.body().getCost();
+            }
+
+            @Override
+            public void onFailure(Call<CostRemainingResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Insufficient balance to secure the order", Toast.LENGTH_LONG).show();
+            }
+        });
 
         getOrderDetails();
 
@@ -63,9 +82,10 @@ public class ViewOrderDetails extends AppCompatActivity {
             public void onClick(View v){
                 LayoutInflater layoutInflater = (LayoutInflater) ViewOrderDetails.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View customView = layoutInflater.inflate(R.layout.popup,null);
-
                 popupWindow = new PopupWindow(customView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
                 popupWindow.showAtLocation(listView, Gravity.CENTER, 0, 0);
+                TextView costText = (TextView) customView.findViewById(R.id.remainingCost);
+                costText.setText("Due Amount: "+Integer.toString(remCost));
                 TextInputEditText privateKeyInput = (TextInputEditText) customView.findViewById(R.id.privateKey);
                 privateKeyInput.setTextIsSelectable(true);
                 MaterialButton pay = (MaterialButton) customView.findViewById(R.id.payBtn);
