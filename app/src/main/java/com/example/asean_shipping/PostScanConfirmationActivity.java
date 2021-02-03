@@ -117,9 +117,10 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v){
                                 privateKey[0] = privateKeyInput.getText().toString();
+                                processPaymentfromDebit(privateKey[0]);
                             }
                         });
-                        processPaymentfromDebit(privateKey[0]);
+
                     }
 
                     ReportTrackDataPayload payload = new ReportTrackDataPayload();

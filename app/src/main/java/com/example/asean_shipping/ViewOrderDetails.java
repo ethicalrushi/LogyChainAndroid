@@ -52,6 +52,7 @@ public class ViewOrderDetails extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.detailsView);
         listView.setDivider(null);
+        View view = findViewById(R.id.listView);
         Button payment = (Button) findViewById(R.id.pay);
 
         getOrderDetails();
@@ -64,7 +65,7 @@ public class ViewOrderDetails extends AppCompatActivity {
                 LayoutInflater layoutInflater = (LayoutInflater) ViewOrderDetails.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View customView = layoutInflater.inflate(R.layout.popup,null);
                 popupWindow = new PopupWindow(customView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-                popupWindow.showAtLocation(listView, Gravity.CENTER, 0, 0);
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
                 TextInputEditText privateKeyInput = (TextInputEditText) customView.findViewById(R.id.privateKey);
                 privateKeyInput.setTextIsSelectable(true);
                 MaterialButton pay = (MaterialButton) customView.findViewById(R.id.payBtn);
@@ -73,9 +74,9 @@ public class ViewOrderDetails extends AppCompatActivity {
                     @Override
                     public void onClick(View v){
                         privateKey[0] = privateKeyInput.getText().toString();
+                        processPayment(privateKey[0]);
                     }
                 });
-                processPayment(privateKey[0]);
             }
         });
     }
