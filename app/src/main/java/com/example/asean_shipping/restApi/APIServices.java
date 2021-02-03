@@ -81,5 +81,8 @@ public interface APIServices {
 
     @POST("transaction/blockPayment/")
     Call<PaymentResponse> blockPayment(@Header("Authorization") String token, @Body PrivateKeyPayload payload);
+    @POST("transaction/finalPayment/")
+    Call<PaymentResponse> finalPayment(@Header("Authorization") String token, @Body PrivateKeyPayload payload);
+
 }
 

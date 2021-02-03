@@ -63,6 +63,7 @@ public class ViewOrderDetails extends AppCompatActivity {
             public void onClick(View v){
                 LayoutInflater layoutInflater = (LayoutInflater) ViewOrderDetails.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View customView = layoutInflater.inflate(R.layout.popup,null);
+
                 popupWindow = new PopupWindow(customView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
                 popupWindow.showAtLocation(listView, Gravity.CENTER, 0, 0);
                 TextInputEditText privateKeyInput = (TextInputEditText) customView.findViewById(R.id.privateKey);

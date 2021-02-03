@@ -26,6 +26,15 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
+                <TextView
+                    android:id="@+id/remainingCost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textSize="14sp"
+                    android:text="Remaining amount"
+                    android:textColor="@color/white"/>
+
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
