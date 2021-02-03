@@ -73,9 +73,9 @@ public class ViewOrderDetails extends AppCompatActivity {
                     @Override
                     public void onClick(View v){
                         privateKey[0] = privateKeyInput.getText().toString();
+                        processPayment(privateKey[0]);
                     }
                 });
-                processPayment(privateKey[0]);
             }
         });
     }

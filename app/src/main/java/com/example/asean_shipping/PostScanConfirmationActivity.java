@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +19,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.asean_shipping.model.shipper.CreateShipmentGenericResponse;
@@ -24,8 +29,16 @@ import com.example.asean_shipping.model.shipper.ReportTrackDataPayload;
 import com.example.asean_shipping.model.shipper.ScanDetailsResponse;
 import com.example.asean_shipping.restApi.APIServices;
 import com.example.asean_shipping.restApi.AppClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +52,7 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
     String shipmentId, latitude, longitude;
     Boolean receiverFlag=false;
     PopupWindow popupWindow;
+    private StorageReference mStorageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +167,27 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
         attachedFiles.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mStorageRef = FirebaseStorage.getInstance().getReference();
+                StorageReference riversRef = mStorageRef.child(shipmentId + ".jpg");
+                File rootPath = new File(Environment.getExternalStorageDirectory(), "file_name");
+                if(!rootPath.exists()) {
+                    rootPath.mkdirs();
+                }
 
+                final File localFile = new File(rootPath,shipmentId +".jpg");
+
+                riversRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Log.e("firebase ",";local tem file created  created " +localFile.toString());
+                        //  updateDb(timestamp,localFile.toString(),position);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.e("firebase ",";local tem file not created  created " +exception.toString());
+                    }
+                });
             }
         });
     }
