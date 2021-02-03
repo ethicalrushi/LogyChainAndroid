@@ -33,7 +33,7 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
 
     TextView shipFromName, shipToName, shipToCity, weight, numberOfPackages, suggestions;
     TextInputEditText remarks;
-    Button accept, reject, viewBol;
+    Button accept, reject, viewBol, attachedFiles;
     String shipmentId, latitude, longitude;
     Boolean receiverFlag=false;
     PopupWindow popupWindow;
@@ -62,6 +62,7 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
         accept = (Button) findViewById(R.id.scanApproveBtn);
         reject = (Button) findViewById(R.id.scanDisapproveBtn);
         viewBol = (Button) findViewById(R.id.scanViewBol);
+        attachedFiles = (Button) findViewById(R.id.getFiles);
 
         APIServices apiServices = AppClient.getInstance().createService(APIServices.class);
         apiServices.getScanDetails(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("token", ""), shipmentId)
@@ -147,9 +148,12 @@ public class PostScanConfirmationActivity extends AppCompatActivity {
             }
         });
 
+        attachedFiles.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-
-
+            }
+        });
     }
 
     public void sendTrackData(ReportTrackDataPayload payload) {
