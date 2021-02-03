@@ -54,5 +54,7 @@ dependencies {
     //QRCode
     implementation "androidmads.library.qrgenearator:QRGenearator:1.0.3"
     implementation 'com.google.android.gms:play-services-vision:11.8.0'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.android.gms:play-services-vision:20.1.3'
 
 }
